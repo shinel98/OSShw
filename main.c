@@ -11,16 +11,6 @@ int main() {
 	int count=0;
 	Product *product[20];
 	
-	FILE *fp = fopen("./product.txt", "r");
-	if(fp == NULL)
-		printf("\n=> 파일 없음\n");
-	else{
-		printf("\n로딩 성공!\n");
-		count = loadFile(product, fp);
-		if(count-1 <0) {
-			printf("로딩 후 파일을 읽어오는 데에 문제가 발생했습니다.\n");
-		}
-	}
         while(1) {
                 int check = 0;
                 input = printMenu();
@@ -90,7 +80,7 @@ int main() {
                         }
                 }
                 else if(input == 5) {
-                	int check = saveFile(product, count-1);
+                	int check = saveFile(product, index);
 			if(check > 0){
 				printf("저장됨!\n");
 			}
@@ -98,8 +88,14 @@ int main() {
 				printf("저장 실패!\n");
 		}
                 else if(input == 6) {
-                        printf("아직 구현되지 않았습니다\n");
-                }
+                        //printf("아직 구현되지 않았습니다\n");
+                
+			FILE *fp = fopen("./product.txt", "r");
+			printf("\n로딩 성공!\n");
+			count = loadFile(product, fp);
+			index += count;			
+			printf("count : %d", count);
+		}
                 else if(input == 7) {
                         printf("아직 구현되지 않았습니다\n");
                 }

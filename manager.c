@@ -27,7 +27,6 @@ int printMenu() {
 
 // 제품 추가 함수
 int createProduct(Product *p) {
-        p->des = (char*)malloc(sizeof(char)*100);
         getchar();
         printf("제품의 이름 입력: ");
         fgets(p->pname, 49, stdin);
@@ -55,7 +54,6 @@ int readProduct(Product *p) {
 }
 // 제품 수정 함수
 int updateProduct(Product *p) {
-        p->des = (char*)malloc(sizeof(char)*100);
         getchar();
 	printf("제품의 이름 입력: ");
         fgets(p->pname, 49, stdin);
@@ -93,15 +91,19 @@ int listProduct(Product *p[], int count) {
 // 제품 검색 함수
 void searchProduct(Product *p[], int count) {
 }
+
 // 파일 저장 함수 
 int saveFile(Product **p, int count) {
 	FILE *fp = fopen("product.txt", "wt");
-	for(int i=0; i<count; i++){
-		fputs((*p[i]).pname, sizeof((*p[i]).pname), fp);
-		fputs((*p[i]).des, sizeof((*p[i]).des), fp);
-		fprintf(fp, "%s %d %d %d" ,(*p[i]).weight, (*p[i]).price,(*p[i]).choice, (*p[i]).reserved);
-		if(i <count -1)
-			fprintf(fp, "\n");
+
+	printf("%d" , count);	
+for(int i=0; i<count; i++){
+		fputs(p[i]->pname, fp);
+		fputs(",", fp);
+		fputs(p[i]->des,  fp);
+		fputs(",", fp);
+		fprintf(fp, "%s, %d, %d, %d,\n" ,p[i]->weight, p[i]->price,p[i]->choice, p[i]->reserved);
+	
 	}
 	fclose(fp);
 	return 1;
@@ -110,11 +112,39 @@ int saveFile(Product **p, int count) {
 int loadFile(Product **p, FILE *fp) {
 	int i =0;
 	int count =0;
-   
-    	while(!feof(fp)){
-		fgets((*p[i]).pname, sizeof((*p[i]).pname), fp);
-		fgets((*p[i]).des, sizeof((*p[i]).des), fp);
-        	fscanf(fp, "%s %d %d %d" ,(*p[i]).weight, &((*p[i]).price),&((*p[i]).choice), &((*p[i]).reserved));
+	char line[1024];
+	char * ptr;
+	
+
+    	while((fgets(line, 1024, fp))!= NULL){
+		printf("ii");
+		p[i] = (Product*)malloc(sizeof(Product));
+		
+		//fgets(line, 1024, fp);
+		ptr = strtok(line, ","); // 이름
+		printf("%s", ptr);
+		strcpy(p[i]->pname, ptr);	
+		
+		ptr = strtok(NULL, ","); // 설명
+		printf("%s", ptr);
+		strcpy(p[i]->des, ptr);
+		
+		ptr = strtok(NULL, ","); // 무게 
+		printf("%s", ptr);
+		strcpy(p[i]->weight, ptr);
+		
+		ptr = strtok(NULL, ","); // 가격
+		printf("%s", ptr);
+		p[i]->price = atoi(ptr);
+		
+		ptr = strtok(NULL, ","); // 배송 방법
+		printf("%s", ptr);
+		p[i]->choice = atoi(ptr);
+		
+		ptr = strtok(NULL, ","); // 찜
+		printf("%s", ptr);
+		p[i]->reserved = atoi(ptr);
+
         	i++;
         	count++;
     	}

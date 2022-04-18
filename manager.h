@@ -2,7 +2,7 @@
 
 typedef struct {
     char pname[50];
-    char *des;
+    char des[100];
     char weight[10];
     int price;
     int choice;
