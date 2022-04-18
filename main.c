@@ -70,6 +70,7 @@ int main() {
 			#ifdef DEBUG 
 				printf("=> debugging mode \n");
 			#endif
+			listProduct(product, index);
 			printf("몇 번을 삭제하시겠습니까?\n");
 			scanf("%d", &deletenum);
 			if(deletenum > index || deletenum <= 0){
