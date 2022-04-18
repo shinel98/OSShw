@@ -94,10 +94,31 @@ int listProduct(Product *p[], int count) {
 void searchProduct(Product *p[], int count) {
 }
 // 파일 저장 함수 
-int saveFile(Product *p, int count) {
+int saveFile(Product **p, int count) {
+	FILE *fp = fopen("product.txt", "wt");
+	for(int i=0; i<count; i++){
+		fputs((*p[i]).pname, sizeof((*p[i]).pname), fp);
+		fputs((*p[i]).des, sizeof((*p[i]).des), fp);
+		fprintf(fp, "%s %d %d %d" ,(*p[i]).weight, (*p[i]).price,(*p[i]).choice, (*p[i]).reserved);
+		if(i <count -1)
+			fprintf(fp, "\n");
+	}
+	fclose(fp);
+	return 1;
 }
 // 파일 불러오기 함수 
-int loadFile(Product *p, FILE *fp) {
+int loadFile(Product **p, FILE *fp) {
+	int i =0;
+	int count =0;
+   
+    	while(!feof(fp)){
+		fgets((*p[i]).pname, sizeof((*p[i]).pname), fp);
+		fgets((*p[i]).des, sizeof((*p[i]).des), fp);
+        	fscanf(fp, "%s %d %d %d" ,(*p[i]).weight, &((*p[i]).price),&((*p[i]).choice), &((*p[i]).reserved));
+        	i++;
+        	count++;
+    	}
+    	return count;
 }
 // 찜하기 기능 함수 
 int reserveProduct(Product *p) {

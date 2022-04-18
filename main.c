@@ -9,7 +9,18 @@ int main() {
 	int delete;
 	int deletenum;
 	int count=0;
-        Product *product[20];
+	Product *product[20];
+	
+	FILE *fp = fopen("./product.txt", "r");
+	if(fp == NULL)
+		printf("\n=> 파일 없음\n");
+	else{
+		printf("\n로딩 성공!\n");
+		count = loadFile(product, fp);
+		if(count-1 <0) {
+			printf("로딩 후 파일을 읽어오는 데에 문제가 발생했습니다.\n");
+		}
+	}
         while(1) {
                 int check = 0;
                 input = printMenu();
@@ -79,8 +90,13 @@ int main() {
                         }
                 }
                 else if(input == 5) {
-                        printf("아직 구현되지 않았습니다\n");
-                }
+                	int check = saveFile(product, count-1);
+			if(check > 0){
+				printf("저장됨!\n");
+			}
+			else 
+				printf("저장 실패!\n");
+		}
                 else if(input == 6) {
                         printf("아직 구현되지 않았습니다\n");
                 }
