@@ -11,6 +11,16 @@ int main() {
 	int count=0;
 	Product *product[20];
 	
+	FILE *fp = fopen("./product.txt" , "r");
+	if(fp == NULL) {
+		printf("\n=>파일 없음\n");
+	}
+	else {
+		printf("\n로딩 성공!\n");
+		count = loadFile(product, fp);
+		index += count;
+		listProduct(product, index);
+	}
         while(1) {
                 int check = 0;
                 input = printMenu();
@@ -88,23 +98,16 @@ int main() {
 				printf("저장 실패!\n");
 		}
                 else if(input == 6) {
-                        //printf("아직 구현되지 않았습니다\n");
-                
-			FILE *fp = fopen("./product.txt", "r");
-			printf("\n로딩 성공!\n");
-			count = loadFile(product, fp);
-			index += count;			
-			printf("count : %d", count);
+               		searchProduct(product, index); 
 		}
                 else if(input == 7) {
-                        printf("아직 구현되지 않았습니다\n");
-                }
+                	reserveProduct(product, index);
+		}
                 else if(input == 8) {
-                        printf("아직 구현되지 않았습니다\n");
-                }
+                	searchByReserved(product, index);
+		}
                 else if(input == 9) {
-                        printf("아직 구현되지 않았습니다\n");
-
+			searchByChoice(product, index);
                 }else{
 			printf("옵션 중에 선택해주세요.\n");
 			continue;
